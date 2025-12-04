@@ -56,10 +56,11 @@
       }
 
       .logo {
-        height: 95px;
         width: 90%;
+        min-width: 360px;
         transition: transform 0.3s ease;
         cursor: pointer;
+        object-fit: contain;
       }
       .logo:hover {
         transform: scale(1.05);
@@ -357,78 +358,62 @@
 
       /* New Social Media Icons */
       /* Container for centering icons and controlling spacing */
+      /* === FIX 2: SOCIAL MEDIA ICONS RESPONSIVENESS === */
       .social-media {
         display: flex;
-        gap: 10px; /* space between buttons */
-        align-items: center;
         justify-content: center;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
         padding: 8px 0;
-        margin-top: 12px;
-        flex-wrap: wrap; /* wraps nicely on small screens */
+        margin-top: 20px;
       }
-
-      /* Button wrapper (anchor) styling */
+      
       .social-media > a {
         display: inline-flex;
-        width: 44px; /* outer diameter on desktop */
-        height: 44px;
-        min-width: 44px;
-        min-height: 44px;
-        border-radius: 50%;
         align-items: center;
         justify-content: center;
+        
+        /* Base size for desktop */
+        width: 44px;
+        height: 44px;
+
+        border-radius: 50%;
         background: #fff;
         border: 1px solid rgba(0, 0, 0, 0.08);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         text-decoration: none;
-        transition: transform 0.12s ease, box-shadow 0.18s ease,
-          border-color 0.12s ease;
-        overflow: hidden; /* keeps images contained */
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
       }
 
-      /* Icon image sizing — preserve aspect ratio */
       .social-media-logo {
         display: block;
-        width: 56%; /* scale icon inside the circle (recommended) */
+        width: 55%; /* Keep the icon consistently sized inside the circle */
         height: auto;
-        max-height: 56%;
         object-fit: contain;
-        filter: none; /* you can use filter to tint SVGs if needed */
       }
 
-      /* Hover / focus states for accessibility + interactivity */
       .social-media > a:hover,
       .social-media > a:focus {
         transform: translateY(-4px);
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-        border-color: rgba(0, 0, 0, 0.12);
         outline: none;
       }
-
-      /* Optional: subtle tint on hover for SVG if you want color change */
-      .social-media > a:hover .social-media-logo {
-        filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.02));
-      }
-
-      /* Make icons smaller on narrow screens */
-      @media (max-width: 480px) {
+      
+      /* Media Query for tablets and small mobile */
+      @media screen and (max-width: 480px) {
         .social-media > a {
           width: 38px;
           height: 38px;
         }
-        .social-media-logo {
-          width: 62%;
-        }
       }
 
-      /* very small in a tight header */
-      @media (max-width: 360px) {
+      /* Media Query for very narrow mobile screens */
+      @media screen and (max-width: 360px) {
         .social-media > a {
-          width: 32px;
-          height: 32px;
-        }
-        .social-media-logo {
-          width: 60%;
+          width: 34px;
+          height: 34px;
         }
       }
     </style>
