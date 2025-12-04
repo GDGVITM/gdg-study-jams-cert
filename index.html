@@ -56,8 +56,8 @@
       }
 
       .logo {
-        height: 75px;
-        width: 70%;
+        height: 95px;
+        width: 90%;
         transition: transform 0.3s ease;
         cursor: pointer;
       }
@@ -354,6 +354,83 @@
           aspect-ratio: 4/3;
         }
       }
+
+      /* New Social Media Icons */
+      /* Container for centering icons and controlling spacing */
+      .social-media {
+        display: flex;
+        gap: 10px; /* space between buttons */
+        align-items: center;
+        justify-content: center;
+        padding: 8px 0;
+        margin-top: 12px;
+        flex-wrap: wrap; /* wraps nicely on small screens */
+      }
+
+      /* Button wrapper (anchor) styling */
+      .social-media > a {
+        display: inline-flex;
+        width: 44px; /* outer diameter on desktop */
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        text-decoration: none;
+        transition: transform 0.12s ease, box-shadow 0.18s ease,
+          border-color 0.12s ease;
+        overflow: hidden; /* keeps images contained */
+      }
+
+      /* Icon image sizing — preserve aspect ratio */
+      .social-media-logo {
+        display: block;
+        width: 56%; /* scale icon inside the circle (recommended) */
+        height: auto;
+        max-height: 56%;
+        object-fit: contain;
+        filter: none; /* you can use filter to tint SVGs if needed */
+      }
+
+      /* Hover / focus states for accessibility + interactivity */
+      .social-media > a:hover,
+      .social-media > a:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.12);
+        outline: none;
+      }
+
+      /* Optional: subtle tint on hover for SVG if you want color change */
+      .social-media > a:hover .social-media-logo {
+        filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.02));
+      }
+
+      /* Make icons smaller on narrow screens */
+      @media (max-width: 480px) {
+        .social-media > a {
+          width: 38px;
+          height: 38px;
+        }
+        .social-media-logo {
+          width: 62%;
+        }
+      }
+
+      /* very small in a tight header */
+      @media (max-width: 360px) {
+        .social-media > a {
+          width: 32px;
+          height: 32px;
+        }
+        .social-media-logo {
+          width: 60%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -365,8 +442,53 @@
         >
           <img src="../Images/gdgvit_logo.png" alt="GDG Logo" class="logo" />
         </a>
+        <div class="social-media">
+          <a href="https://www.twitter.com/gdgvit" target="_blank">
+            <img
+              src="../Images/x.svg"
+              alt="GDG Twitter"
+              class="social-media-logo"
+            />
+          </a>
+          <a
+            href="https://www.linkedin.com/company/google-developer-groups-vit-mumbai"
+            target="_blank"
+          >
+            <img
+              src="../Images/linkedin.png"
+              alt="GDG LinkedIn"
+              class="social-media-logo"
+            />
+          </a>
+          <a
+            href="https://www.instagram.com/https://www.instagram.com/gdg_vit/"
+            target="_blank"
+          >
+            <img
+              src="../Images/instagram.svg"
+              alt="GDG Instagram"
+              class="social-media-logo"
+            />
+          </a>
+          <a href="https://linktr.ee/gdgvit" target="_blank">
+            <img
+              src="../Images/external_link.png"
+              alt="GDG Linktree"
+              class="social-media-logo"
+            />
+          </a>
+          <a
+            href="https://gdg.community.dev/gdg-on-campus-vidyalankar-institute-of-technology-mumbai-india/"
+            target="_blank"
+          >
+            <img
+              src="../Images/website.png"
+              alt="GDG Community website"
+              class="social-media-logo"
+            />
+          </a>
+        </div>
       </div>
-
       <div id="loader" class="loader-container">
         <div class="spinner"></div>
         <p
