@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verification | GDG JIST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --google-blue: #4285F4;
+            --google-red: #EA4335;
+            --google-yellow: #FBBC04;
+            --google-green: #34A853;
+            --text-main: #202124;
+            --text-sub: #5f6368;
+            --bg-color: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 850px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            margin-bottom: 25px;
+        }
+
+        .header {
+            padding: 40px 0 20px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .logo:hover { 
+            transform: scale(1.05); 
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 40px;
+            padding: 0 50px 50px 50px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Certificate Preview Container */
+        .preview-wrapper { position: relative; }
+
+        .preview-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #eaeaea;
+            background: #fff;
+            aspect-ratio: 16/11;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Image Styling */
+        #cert-img {
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            display: block;
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out;
+            position: relative;
+            z-index: 2; 
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(52, 168, 83, 0.08);
+            color: var(--google-green);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 13px;
+            width: fit-content;
+            margin-bottom: 15px;
+            border: 1px solid rgba(52, 168, 83, 0.2);
+            animation: pulseBadge 3s infinite;
+        }
+
+        @keyframes pulseBadge {
+            0% { box-shadow: 0 0 0 0 rgba(52, 168, 83, 0.2); }
+            70% { box-shadow: 0 0 0 6px rgba(52, 168, 83, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 168, 83, 0); }
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-sub);
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .meta-data {
+            background: #fcfcfc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #f0f0f0;
+            margin-bottom: 25px;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .meta-row:last-child { border: none; padding: 0; margin: 0; }
+        
+        .label { font-weight: 400; color: var(--text-sub); font-size: 13px; }
+        .value { font-weight: 500; color: var(--text-main); font-size: 14px; }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-linkedin {
+            background-color: #0a66c2;
+            color: white;
+            box-shadow: 0 2px 5px rgba(10, 102, 194, 0.2);
+        }
+        .btn-linkedin:hover { box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3); }
+        
+        .btn-google {
+            background-color: white;
+            color: var(--text-main);
+            border: 1px solid #dadce0;
+        }
+        .btn-google:hover {
+            border-color: var(--text-main);
+            background-color: #fff;
+        }
+        
+        .btn-download {
+            background-color: transparent;
+            color: var(--google-blue);
+            font-weight: 500;
+            font-size: 13px;
+            margin-top: 5px;
+            padding: 8px;
+        }
+        .btn-download:hover { text-decoration: underline; transform: none; }
+
+        /* Note Text */
+        .note-text {
+            font-size: 11px;
+            color: #757575;
+            margin-top: -2px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            padding: 0 5px;
+            font-style: italic;
+        }
+
+        /* Footer Credits */
+        .footer-credits {
+            font-size: 12px;
+            color: #9aa0a6;
+            margin-top: 5px;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .loader-container {
+            padding: 100px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--google-blue);
+            border-right: 4px solid var(--google-green);
+            border-bottom: 4px solid var(--google-yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        #img-spinner {
+            position: absolute;
+            z-index: 1; 
+            width: 40px; 
+            height: 40px;
+        }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .error-msg {
+            color: var(--google-red);
+            text-align: center;
+            padding: 40px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 800px) {
+            .content { grid-template-columns: 1fr; gap: 30px; padding: 30px; }
+            h1 { font-size: 22px; }
+            .preview-container { aspect-ratio: 16/10; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .card { border-radius: 16px; }
+            .content { padding: 25px 20px; }
+            .preview-container { aspect-ratio: 4/3; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="header">
+            <a href="https://www.linkedin.com/in/gdg-jist-097686386/" target="_blank">
+                <img src="logo.png" alt="GDG Logo" class="logo">
+            </a>
+        </div>
+
+        <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+            <p style="color: var(--text-sub); font-size: 15px; font-weight: 500; margin-top: 20px;">Verifying Credential...</p>
+        </div>
+
+        <div id="error" class="error-msg hidden"></div>
+
+        <div id="result" class="content hidden">
+            
+            <div class="preview-wrapper">
+                <div class="preview-container">
+                    <div id="img-spinner" class="spinner"></div>
+                    <img id="cert-img" src="" alt="Certificate Preview">
+                </div>
+            </div>
+
+            <div class="details">
+                <div>
+                    <div class="verified-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 2px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        Officially Verified
+                    </div>
+
+                    <h1 id="name">Student Name</h1>
+                    <div class="subtitle">has successfully completed the Google Cloud Study Jam campaign.</div>
+                </div>
+                
+                <div class="meta-data">
+                    <div class="meta-row">
+                        <span class="label">Certificate ID</span>
+                        <span class="value" id="cert-id">GDG-25-XXXX</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="label">Issue Date</span>
+                        <span class="value" id="date">October 2025</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="label">Achievement</span>
+                        <span class="value">Cloud Study Jam</span>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a id="btn-linkedin" href="#" target="_blank" class="btn btn-linkedin">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        Add to LinkedIn
+                    </a>
+
+                    <div class="note-text">
+                        Note: LinkedIn does not allow automatic PDF uploads. If you want the file visible directly on your profile, please click 'Download PDF' and upload it manually to the Media section of your certification.
+                    </div>
+
+                    <a id="btn-profile" href="#" target="_blank" class="btn btn-google">
+                        <img src="google.svg" width="16" style="margin-right: 10px;">
+                        Verify on Google Cloud
+                    </a>
+
+                    <a id="btn-download" href="#" class="btn btn-download">
+                        Download PDF Copy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-credits">
+        Designed & Developed by Ezaz Ahmed (GDGoC JIST Lead) | Visitors: <span id="visit-count">...</span>
+    </div>
+
+<script>
+    // ==========================================
+    // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
+    const API_URL = "https://script.google.com/macros/s/AKfycbxhjwIYboNHHkBAMPStorZOz0EJzJvGzaL2qNcRn-CwQyFRRlCZGEKInOchNTZJM1C_Kg/exec"; 
+    // ==========================================
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    // 1. VISITOR COUNTER LOGIC (Uses free counterapi.dev)
+    const namespace = 'gdg-jist-cert-portal'; 
+    const key = 'visits';
+    fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('visit-count').innerText = data.count;
+        })
+        .catch(err => {
+            console.log('Counter Error', err);
+            // Fallback if API fails
+            document.getElementById('visit-count').innerText = "1,200+"; 
+        });
+
+
+    // 2. MAIN LOGIC
+    if (!id) {
+        showError("No Certificate ID provided in the URL.");
+    } else {
+        fetch(`${API_URL}?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('loader').classList.add('hidden');
+                
+                if (data.valid) {
+                    document.getElementById('result').classList.remove('hidden');
+                    
+                    // Fill Text Data
+                    document.getElementById('name').innerText = data.name;
+                    document.getElementById('cert-id').innerText = data.certId;
+                    
+                    // Date Formatting
+                    const dateObj = new Date(data.date);
+                    const niceDate = dateObj.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    document.getElementById('date').innerText = niceDate;
+
+                    // --- IMAGE LOADER LOGIC ---
+                    const img = document.getElementById('cert-img');
+                    const imgSpinner = document.getElementById('img-spinner');
+
+                    // Set Image Source
+                    img.src = `https://drive.google.com/thumbnail?id=${data.fileId}&sz=w1000`;
+                    
+                    // When Image Loads, Hide Spinner & Fade In Image
+                    img.onload = function() {
+                        imgSpinner.style.display = 'none'; // Hide spinner
+                        img.style.opacity = '1';           // Fade in image
+                    };
+
+                    // Set Links
+                    document.getElementById('btn-profile').href = data.profileUrl || "#"; 
+                    document.getElementById('btn-download').href = `https://drive.google.com/u/0/uc?id=${data.fileId}&export=download`;
+
+                    // LinkedIn Integration
+                    // LinkedIn Integration
+                    // We use Organization ID 1441 (Google) to ensure the official Logo appears.
+                    // Google for Developers is a Showcase page of Google.
+                    const orgId = 1441; 
+                    const title = "Google Cloud Study Jam Completion";
+                    
+                    // Parse the date from your data to get the correct Month/Year automatically
+                    const certDate = new Date(data.date);
+                    const issueYear = certDate.getFullYear();
+                    const issueMonth = certDate.getMonth() + 1; // JS months are 0-11, LinkedIn needs 1-12
+
+                    const verifyUrl = encodeURIComponent(window.location.href); 
+                    
+                    // Note: We use 'organizationId' instead of 'organizationName' for the official link
+                    const linkedinUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(title)}&organizationId=${orgId}&issueYear=${issueYear}&issueMonth=${issueMonth}&certId=${data.certId}&certUrl=${verifyUrl}`;
+                    
+                    document.getElementById('btn-linkedin').href = linkedinUrl;
+                } else {
+                    showError("Invalid Certificate ID. Please check the link.");
+                }
+            })
+            .catch(err => {
+                showError("System Error. Please verify the API URL and Permissions.");
+                console.error(err);
+            });
+    }
+
+    function showError(msg) {
+        document.getElementById('loader').classList.add('hidden');
+        const errDiv = document.getElementById('error');
+        errDiv.innerText = msg;
+        errDiv.classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
+
