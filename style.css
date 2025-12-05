@@ -11,6 +11,7 @@
 body {
     font-family: "Inter", sans-serif;
     background-color: #f8f9fa;
+    background: linear-gradient(135deg, #fff4d7 0%, #ffe7f1 40%, #f3f6ff 100%);
     margin: 0;
     padding: 20px;
     display: flex;
@@ -38,14 +39,17 @@ body {
 }
 
 .header {
-    padding: 40px 20px 20px 20px;
+    padding: 40px 48px 26px 48px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .logo {
-    width: 90%;
-    min-width: 270px;
-    max-height: 400px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 480px;
     transition: transform 0.3s ease;
     cursor: pointer;
     object-fit: contain;
@@ -59,6 +63,7 @@ body {
 .social-media {
     display: flex;
     justify-content: center;
+    margin-top: 10px !important;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
@@ -74,7 +79,7 @@ body {
     border-radius: 50%;
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
@@ -314,14 +319,35 @@ input:checked+.slider:before {
 
 /* --- VERIFICATION PAGE SPECIFIC STYLES --- */
 .card.verify-page {
-    max-width: 850px;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(26px) saturate(180%);
+    -webkit-backdrop-filter: blur(26px) saturate(180%);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+    padding-bottom: 40px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    margin-top: 25px !important;
+}
+
+.card.verify-page:hover {
+    transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+    box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.12),
+        0 10px 30px rgba(66, 133, 244, 0.06),
+        0 8px 24px rgba(234, 67, 53, 0.06),
+        0 8px 24px rgba(52, 168, 83, 0.06),
+        0 8px 24px rgba(251, 188, 4, 0.06);
 }
 
 .content {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    gap: 40px;
-    padding: 0 50px 50px 50px;
+    gap: 32px;
+    padding: 0 48px 48px 48px;
     animation: fadeIn 0.8s ease-out;
 }
 
@@ -337,15 +363,18 @@ input:checked+.slider:before {
     border: 1px solid #eaeaea;
     background: #fff;
     aspect-ratio: 16/11;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* padding-top: 24px;
+    padding-bottom: 12px; */
+    padding: 24px 0;
 }
 
 .preview-container:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.14);
 }
 
 #cert-img {
@@ -357,6 +386,8 @@ input:checked+.slider:before {
     transition: opacity 0.5s ease-in-out;
     position: relative;
     z-index: 2;
+    max-height: 94%;          /* keeps a little breathing room */
+    transform: translateY(14px);  /* move image slightly down */
 }
 
 .details {
@@ -411,44 +442,73 @@ input:checked+.slider:before {
 }
 
 .meta-data {
-    background: #fcfcfc;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #f0f0f0;
-    margin-bottom: 25px;
+    background: #ffffff;
+    padding: 20px 28px;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+    justify-content: space-between;
+    display: flex;
+    gap: 32px;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.06);
+}
+
+.meta-data .value {
+    margin-top: 2px;
 }
 
 .meta-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    flex: 1;
+    flex-direction: column; 
+    justify-content: center;
+    border-bottom: none;
+    align-items: flex-start;
+    margin: 0;
+    gap: 6px;
+    min-width: 0;
+    padding: 0;                
+    border: none !important;
 }
 
 .meta-row:last-child {
-    border: none;
-    padding: 0;
-    margin: 0;
+    border-right: none;
+    padding-right: 0;
 }
 
 .label {
-    font-weight: 400;
-    color: var(--text-sub);
-    font-size: 13px;
+    font-weight: 600;
+    color: #9ca3af; 
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-bottom: 4px;
 }
 
 .value {
-    font-weight: 500;
-    color: var(--text-main);
-    font-size: 14px;
+    font-weight: 600;
+    color: #111827; 
+    font-size: 15px;
+    margin-top: 4px;
+    text-align: left;
+    line-height: 1.35;
 }
 
 .btn-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.btn-row {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-row .btn {
+    flex: 1;
 }
 
 .btn {
@@ -469,6 +529,12 @@ input:checked+.slider:before {
     transform: translateY(-2px);
 }
 
+.btn-secondary {
+    background-color: #ffffff;
+    color: var(--text-main);
+    border: 1px solid #dadce0;
+}
+
 .btn-linkedin {
     background-color: #0a66c2;
     color: white;
@@ -485,18 +551,28 @@ input:checked+.slider:before {
     border: 1px solid #dadce0;
 }
 
+.btn-outline-google {
+    background-color: #ffffff;
+    color: var(--google-blue);
+    border: 1px solid #dadce0;
+}
+
 .btn-google:hover {
     border-color: var(--text-main);
     background-color: #fff;
 }
 
 .btn-download {
-    background-color: transparent;
+    /* background-color: transparent;
     color: var(--google-blue);
     font-weight: 500;
     font-size: 13px;
     margin-top: 5px;
-    padding: 8px;
+    padding: 8px; */
+
+    background: none;
+    border: none;
+    padding: 0;
 }
 
 .btn-download:hover {
@@ -587,6 +663,21 @@ input:checked+.slider:before {
     .preview-container {
         aspect-ratio: 16/10;
     }
+
+    .meta-data {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .meta-row {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    
+    .meta-row:last-child {
+        border-bottom: none;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -617,6 +708,11 @@ input:checked+.slider:before {
     h1,
     .content h1 {
         font-size: 20px;
+    }
+
+    .meta-data {
+        flex-direction: column;
+        gap: 16px;
     }
 }
 
